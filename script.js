@@ -1,53 +1,62 @@
 const toggleSwitch = document.querySelector('input[type="checkbox"]');
 const nav = document.getElementById("nav");
 const toggleIcon = document.getElementById("toggle-icon");
-const image1 = document.getElementById("image1");
-const image2 = document.getElementById("image2");
-const image3 = document.getElementById("image3");
+const aboutImages = document.querySelectorAll("#about-image");
 const textBox = document.getElementById("text-box");
 
-function setImageColorMode(colorMode) {
-  image1.src = `img/undraw_proud_coder_${colorMode}.svg`;
-  image2.src = `img/undraw_feeling_proud_${colorMode}.svg`;
-  image3.src = `img/undraw_conceptual_idea_${colorMode}.svg`;
+function setImageColorMode(isDark) {
+  /* aboutImages is a NodeList, you can loop through it */
+  /* If you include more svg's, this will handle it */
+  aboutImages.forEach((image) => {
+    let newImageSrc = isDark
+      ? image.src.replace("light", "dark")
+      : image.src.replace("dark", "light");
+
+    image.src = newImageSrc;
+  });
 }
 
-function setToggleIconMode(colorMode) {
-  if (colorMode === "dark") {
-    toggleIcon.children[0].textContent = "Dark Mode";
-    toggleIcon.children[1].classList.replace("fa-sun", "fa-moon");
-  } else {
-    toggleIcon.children[0].textContent = "Light Mode";
-    toggleIcon.children[1].classList.replace("fa-moon", "fa-sun");
-  }
+function toggleDarkLightMode(isDark) {
+  /* Navigation background color */
+  nav.style.backgroundColor = isDark
+    ? "rgb(0 0 0 / 50%)"
+    : "rgb(255 255 255 / 50%)";
+  /* Textbox background color (projects section) */
+  textBox.style.backgroundColor = isDark
+    ? "rgb(255 255 255 / 50%)"
+    : "rgb(0 0 0 / 50%)";
+  /* Toggle icon textContent - navigation */
+  toggleIcon.children[0].textContent = isDark ? "Dark Mode" : "Light Mode";
+  /* Toggle icon - navigation */
+  isDark
+    ? toggleIcon.children[1].classList.replace("fa-sun", "fa-moon")
+    : toggleIcon.children[1].classList.replace("fa-moon", "fa-sun");
+  /* About images color mode */
+  isDark ? setImageColorMode(true) : setImageColorMode(false);
 }
 
-// Dark Mode Styles
-function setDarkMode() {
-  nav.style.backgroundColor = "rgb(0 0 0 / 50%)";
-  textBox.style.backgroundColor = "rgb(255 255 255 / 50%)";
-  setToggleIconMode("dark");
-  setImageColorMode("dark");
-}
-
-// Light Mode Styles
-function setLightMode() {
-  nav.style.backgroundColor = "rgb(255 255 255 / 50%)";
-  textBox.style.backgroundColor = "rgb(0 0 0 / 50%)";
-  setToggleIconMode("light");
-  setImageColorMode("light");
-}
-
-// Switch Theme Dynamically
 function switchTheme(event) {
   if (event.target.checked) {
     document.documentElement.setAttribute("data-theme", "dark");
-    setDarkMode();
+    localStorage.setItem("theme", "dark");
+    toggleDarkLightMode(true);
   } else {
     document.documentElement.setAttribute("data-theme", "light");
-    setLightMode();
+    localStorage.setItem("theme", "light");
+    toggleDarkLightMode(false);
   }
 }
 
 // Event Listener
 toggleSwitch.addEventListener("change", switchTheme);
+
+// Check Local Storage for theme
+const currentTheme = localStorage.getItem("theme");
+if (currentTheme) {
+  document.documentElement.setAttribute("data-theme", currentTheme);
+
+  if (currentTheme === "dark") {
+    toggleSwitch.checked = true;
+    toggleDarkLightMode(true);
+  }
+}
