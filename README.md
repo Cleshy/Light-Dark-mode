@@ -12,7 +12,7 @@ Happy New Year all. ✨🎉
 
 ## Published ⬇
 
-<https://cleshy.github.io/Light-Dark-Mode/>
+<https://cleshy.github.io/Light-Dark-mode/>
 
 ## Desktop Light - Dark
 
