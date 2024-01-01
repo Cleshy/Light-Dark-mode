@@ -424,13 +424,16 @@ input:checked + .slider::before {
 }
 
 @media screen and (max-width: 920px) {
+  .home {
+    padding-top: 12rem;
+  }
+
   .home-container {
     grid-template-columns: 1fr;
     gap: 10rem;
   }
 
   .home-text-group {
-    padding-top: 15rem;
     text-align: center;
     align-items: center;
   }
@@ -454,12 +457,6 @@ input:checked + .slider::before {
 @media screen and (max-width: 600px) {
   .home-image-group img {
     width: 90%;
-  }
-}
-
-@media screen and (max-width: 476px) {
-  .home {
-    padding-top: 10rem;
   }
 }
 
