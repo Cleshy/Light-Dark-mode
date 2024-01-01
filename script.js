@@ -12,7 +12,6 @@ const DARK_THEME = "dark";
 const LIGHT_THEME = "light";
 
 /* If the user clicks on a link, remove show class from nav-list */
-
 navLinks.forEach((link) => {
   link.addEventListener("click", () => {
     navList.classList.remove("show");
